@@ -1,0 +1,17 @@
+server:
+  port: 5000
+spring:
+  datasource:
+    username: root
+    password: root123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/mall-shop?useSSL=false
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: true
