@@ -2,6 +2,7 @@ package com.jsrdxzw.mallshopbe.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.Entity;
 
@@ -12,6 +13,7 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
+@Where(clause = "delete_time is null")
 public class BannerItem extends BaseEntity {
     private String img;
     private String keyword;

@@ -16,7 +16,7 @@ CREATE TABLE `activity`
     `update_time`      datetime(3)  DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
     `delete_time`      datetime(3)  DEFAULT NULL,
     `remark`           varchar(60)  DEFAULT NULL,
-    `online`           boolean      DEFAULT '1',
+    `online`           boolean      DEFAULT true,
     `entrance_img`     varchar(255) DEFAULT NULL,
     `internal_top_img` varchar(255) DEFAULT NULL,
     `name`             varchar(20)     NOT NULL,
@@ -188,7 +188,7 @@ CREATE TABLE `category`
     `create_time` datetime(3)              DEFAULT CURRENT_TIMESTAMP(3),
     `update_time` datetime(3)              DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
     `delete_time` datetime(3)              DEFAULT NULL,
-    `is_root`     boolean         NOT NULL DEFAULT '0',
+    `is_root`     boolean         NOT NULL DEFAULT false,
     `parent_id`   bigint unsigned          DEFAULT NULL,
     `img`         varchar(255)             DEFAULT NULL,
     `index`       bigint unsigned          DEFAULT NULL,
@@ -462,7 +462,7 @@ CREATE TABLE `sku`
     `id`               bigint unsigned         NOT NULL AUTO_INCREMENT,
     `price`            decimal(10, 2) unsigned NOT NULL,
     `discount_price`   decimal(10, 2) unsigned          DEFAULT NULL,
-    `online`           boolean                 NOT NULL DEFAULT '1',
+    `online`           boolean                 NOT NULL DEFAULT true,
     `img`              varchar(255)                     DEFAULT NULL,
     `title`            varchar(255)                     DEFAULT NULL,
     `spu_id`           bigint unsigned         NOT NULL,
@@ -472,8 +472,8 @@ CREATE TABLE `sku`
     `specs`            json                             DEFAULT NULL,
     `code`             varchar(255)                     DEFAULT NULL,
     `stock`            int(10) unsigned        NOT NULL DEFAULT '0',
-    `category_id`      int(10) unsigned                 DEFAULT NULL,
-    `root_category_id` int(10) unsigned                 DEFAULT NULL,
+    `category_id`      bigint unsigned                  DEFAULT NULL,
+    `root_category_id` bigint unsigned                  DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) AUTO_INCREMENT = 52;
 
@@ -1330,7 +1330,7 @@ CREATE TABLE `spu`
     `subtitle`         varchar(800)             DEFAULT NULL,
     `category_id`      bigint unsigned NOT NULL,
     `root_category_id` bigint                   DEFAULT NULL,
-    `online`           boolean         NOT NULL DEFAULT '1',
+    `online`           boolean         NOT NULL DEFAULT true,
     `create_time`      datetime(3)              DEFAULT CURRENT_TIMESTAMP(3),
     `update_time`      datetime(3)              DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
     `delete_time`      datetime(3)              DEFAULT NULL,
@@ -1341,7 +1341,7 @@ CREATE TABLE `spu`
     `discount_price`   varchar(20)              DEFAULT NULL,
     `description`      varchar(255)             DEFAULT NULL,
     `tags`             varchar(30)              DEFAULT NULL,
-    `is_test`          boolean                  DEFAULT '0',
+    `is_test`          boolean                  DEFAULT false,
     `spu_theme_img`    json                     DEFAULT NULL,
     `for_theme_img`    varchar(255)             DEFAULT NULL,
     PRIMARY KEY (`id`)
@@ -1399,10 +1399,10 @@ COMMIT;
 DROP TABLE IF EXISTS `spu_detail_img`;
 CREATE TABLE `spu_detail_img`
 (
-    `id`          bigint unsigned  NOT NULL AUTO_INCREMENT,
-    `img`         varchar(255)     NOT NULL,
+    `id`          bigint unsigned NOT NULL AUTO_INCREMENT,
+    `img`         varchar(255)    NOT NULL,
     `spu_id`      bigint unsigned DEFAULT NULL,
-    `index`       int(10) unsigned NOT NULL,
+    `index`       bigint unsigned NOT NULL,
     `create_time` datetime(3)     DEFAULT CURRENT_TIMESTAMP(3),
     `update_time` datetime(3)     DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
     `delete_time` datetime(3)     DEFAULT NULL,
@@ -1612,7 +1612,7 @@ CREATE TABLE `theme`
     `extend`           varchar(255) DEFAULT NULL,
     `internal_top_img` varchar(255) DEFAULT NULL,
     `title_img`        varchar(255) DEFAULT NULL,
-    `online`           boolean      DEFAULT '1',
+    `online`           boolean      DEFAULT true,
     PRIMARY KEY (`id`)
 ) AUTO_INCREMENT = 12;
 

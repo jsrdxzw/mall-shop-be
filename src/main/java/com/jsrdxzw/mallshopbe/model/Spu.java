@@ -2,8 +2,13 @@ package com.jsrdxzw.mallshopbe.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 /**
  * @author xuzhiwei
@@ -12,6 +17,7 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
+@Where(clause = "delete_time is null and online = true")
 public class Spu extends BaseEntity {
     private String title;
     private String subtitle;
@@ -26,4 +32,16 @@ public class Spu extends BaseEntity {
     private String description;
     private String tags;
     private Boolean isTest;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "spuId")
+    private List<Sku> skuList;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "spuId")
+    private List<SpuImg> spuImgList;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name="spuId")
+    private List<SpuDetailImg> spuDetailImgList;
 }

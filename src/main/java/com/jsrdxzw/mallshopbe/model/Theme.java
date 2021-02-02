@@ -2,6 +2,7 @@ package com.jsrdxzw.mallshopbe.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
+@Where(clause = "delete_time is null and online = true")
 public class Theme extends BaseEntity {
     private String title;
     private String description;
