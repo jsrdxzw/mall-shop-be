@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.util.Date;
 
@@ -14,6 +15,9 @@ import java.util.Date;
 @Data
 @MappedSuperclass
 public abstract class BaseEntity {
+    @Id
+    private Long id;
+
     @JsonIgnore
     @Column(insertable = false, updatable = false)
     private Date createTime;

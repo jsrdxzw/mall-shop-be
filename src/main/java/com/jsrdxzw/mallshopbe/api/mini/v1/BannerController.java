@@ -1,4 +1,4 @@
-package com.jsrdxzw.mallshopbe.api.v1;
+package com.jsrdxzw.mallshopbe.api.mini.v1;
 
 import com.jsrdxzw.mallshopbe.model.Banner;
 import com.jsrdxzw.mallshopbe.service.BannerService;
