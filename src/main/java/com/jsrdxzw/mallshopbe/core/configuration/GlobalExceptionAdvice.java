@@ -2,6 +2,7 @@ package com.jsrdxzw.mallshopbe.core.configuration;
 
 import com.jsrdxzw.mallshopbe.core.UnifyResponse;
 import com.jsrdxzw.mallshopbe.exception.HttpException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
  * @author xuzhiwei
  * @date 2021-02-01
  */
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionAdvice {
     @Autowired
@@ -38,6 +40,7 @@ public class GlobalExceptionAdvice {
         String method = req.getMethod();
         int code = 9999;
         String message = exceptionCodeConfiguration.getCodes().get(code);
+        log.error("程序发生了错误, req:{}, exception:{}", uri, e);
         return new UnifyResponse(code, message, method + " " + uri);
     }
 
@@ -61,13 +64,13 @@ public class GlobalExceptionAdvice {
         String method = req.getMethod();
         List<ObjectError> errors = e.getBindingResult().getAllErrors();
         String message = formatAllErrorMessages(errors);
-        return new UnifyResponse(10001, message,method + " " + requestUrl);
+        return new UnifyResponse(10001, message, method + " " + requestUrl);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    @ResponseStatus(code= HttpStatus.BAD_REQUEST)
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public UnifyResponse handleConstraintException(HttpServletRequest req, ConstraintViolationException e){
+    public UnifyResponse handleConstraintException(HttpServletRequest req, ConstraintViolationException e) {
         String requestUrl = req.getRequestURI();
         String method = req.getMethod();
         String message = e.getMessage();
@@ -75,7 +78,7 @@ public class GlobalExceptionAdvice {
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    @ResponseStatus(code= HttpStatus.BAD_REQUEST)
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ResponseBody
     public UnifyResponse handleMissingServletRequestParameterException(
             HttpServletRequest req, MissingServletRequestParameterException e) {

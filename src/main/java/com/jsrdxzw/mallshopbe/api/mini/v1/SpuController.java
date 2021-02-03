@@ -45,7 +45,7 @@ public class SpuController {
     ) {
         Pair<Integer, Integer> pair = CommonUtil.convertPageParams(start, count);
         Page<Spu> latestSpuPage = spuService.getLatestSpuPage(pair.getFirst(), pair.getSecond());
-        return new Paging<>(latestSpuPage, SpuSimplifyVO::new);
+        return Paging.createPaging(latestSpuPage, SpuSimplifyVO::new);
     }
 
     @GetMapping("/category/{id}")
@@ -57,6 +57,6 @@ public class SpuController {
     ) {
         Pair<Integer, Integer> pair = CommonUtil.convertPageParams(start, count);
         Page<Spu> latestSpuPage = spuService.getLatestSpuByCategory(id, isRoot, pair.getFirst(), pair.getSecond());
-        return new Paging<>(latestSpuPage, SpuSimplifyVO::new);
+        return Paging.createPaging(latestSpuPage, SpuSimplifyVO::new);
     }
 }

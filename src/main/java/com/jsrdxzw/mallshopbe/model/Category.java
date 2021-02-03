@@ -4,7 +4,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author xuzhiwei
@@ -24,4 +25,9 @@ public class Category extends BaseEntity {
     private Long parentId;
 
     private Long index;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "coupon_category", joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "coupon_id"))
+    private List<Coupon> couponList;
 }
