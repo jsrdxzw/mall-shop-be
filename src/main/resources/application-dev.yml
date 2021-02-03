@@ -15,3 +15,7 @@ spring:
       hibernate:
         format_sql: true
     open-in-view: true
+mall:
+  security:
+    jwt-key: mall-shopping
+    token-expired-time: 86400000
