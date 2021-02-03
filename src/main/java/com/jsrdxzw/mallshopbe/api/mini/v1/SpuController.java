@@ -3,6 +3,7 @@ package com.jsrdxzw.mallshopbe.api.mini.v1;
 import com.jsrdxzw.mallshopbe.model.Spu;
 import com.jsrdxzw.mallshopbe.service.SpuService;
 import com.jsrdxzw.mallshopbe.util.CommonUtil;
+import com.jsrdxzw.mallshopbe.vo.Paging;
 import com.jsrdxzw.mallshopbe.vo.SpuSimplifyVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,20 +39,24 @@ public class SpuController {
     }
 
     @GetMapping("/latest")
-    public Page<Spu> getLatestSkuList(
+    public Paging<SpuSimplifyVO> getLatestSkuList(
             @RequestParam(name = "start", required = false, defaultValue = "0") Integer start,
             @RequestParam(name = "count", required = false, defaultValue = "10") Integer count
     ) {
         Pair<Integer, Integer> pair = CommonUtil.convertPageParams(start, count);
-        return spuService.getLatestSpuPage(pair.getFirst(), pair.getSecond());
+        Page<Spu> latestSpuPage = spuService.getLatestSpuPage(pair.getFirst(), pair.getSecond());
+        return new Paging<>(latestSpuPage, SpuSimplifyVO::new);
     }
 
     @GetMapping("/category/{id}")
-    public Page<Spu> getSpuByCategoryId(@PathVariable @Positive Long id,
-                                        @RequestParam(name = "is_root", defaultValue = "false") Boolean isRoot,
-                                        @RequestParam(name = "start", defaultValue = "0") Integer start,
-                                        @RequestParam(name = "count", defaultValue = "10") Integer count) {
+    public Paging<SpuSimplifyVO> getSpuByCategoryId(
+            @PathVariable @Positive Long id,
+            @RequestParam(name = "is_root", defaultValue = "false") Boolean isRoot,
+            @RequestParam(name = "start", defaultValue = "0") Integer start,
+            @RequestParam(name = "count", defaultValue = "10") Integer count
+    ) {
         Pair<Integer, Integer> pair = CommonUtil.convertPageParams(start, count);
-        return spuService.getLatestSpuByCategory(id, isRoot, pair.getFirst(), pair.getSecond());
+        Page<Spu> latestSpuPage = spuService.getLatestSpuByCategory(id, isRoot, pair.getFirst(), pair.getSecond());
+        return new Paging<>(latestSpuPage, SpuSimplifyVO::new);
     }
 }
