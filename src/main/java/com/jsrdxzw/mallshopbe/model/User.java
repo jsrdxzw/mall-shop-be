@@ -1,10 +1,13 @@
 package com.jsrdxzw.mallshopbe.model;
 
+import com.jsrdxzw.mallshopbe.core.converter.MapJsonConverter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Where;
 
+import javax.persistence.Convert;
 import javax.persistence.Entity;
+import java.util.Map;
 
 /**
  * @author xuzhiwei
@@ -27,4 +30,6 @@ public class User extends BaseEntity {
 
     private Long unifyUid;
 
+    @Convert(converter = MapJsonConverter.class)
+    private Map<String, Object> wxProfile;
 }
