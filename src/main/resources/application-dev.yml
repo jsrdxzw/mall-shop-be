@@ -19,3 +19,4 @@ mall:
   security:
     jwt-key: mall-shopping
     token-expired-time: 86400000
+    default-scope: 8

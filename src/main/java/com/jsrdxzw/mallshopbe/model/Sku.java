@@ -44,8 +44,7 @@ public class Sku extends BaseEntity {
         if (Objects.isNull(specs)) {
             return Collections.emptyList();
         }
-        return JsonUtil.jsonToObject(specs, new TypeReference<>() {
-        });
+        return JsonUtil.jsonToObject(specs, new TypeReference<>() {});
     }
 
     public void setSpecs(List<Spec> specs) {
