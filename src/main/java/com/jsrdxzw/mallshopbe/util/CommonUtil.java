@@ -3,6 +3,7 @@ package com.jsrdxzw.mallshopbe.util;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.util.Pair;
 
+import java.util.Date;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -12,6 +13,10 @@ import java.util.stream.Collectors;
  * @date 2021-02-02
  */
 public class CommonUtil {
+    public static boolean isInTime(Date startTime, Date now, Date endTime) {
+        return now.after(startTime) && now.before(endTime);
+    }
+
     public static Pair<Integer, Integer> convertPageParams(Integer start, Integer count) {
         Integer page = start / count;
         return Pair.of(page, count);

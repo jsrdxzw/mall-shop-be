@@ -11,20 +11,12 @@ import javax.persistence.Entity;
  * @date 2021-02-04
  */
 @EqualsAndHashCode(callSuper = true)
-@Data
 @Entity
+@Data
 @Where(clause = "delete_time is null")
-public class User extends BaseEntity {
-    private String openid;
-
-    private String nickname;
-
-    private String email;
-
-    private String mobile;
-
-    private String password;
-
-    private Long unifyUid;
-
+public class UserCoupon extends BaseEntity {
+    private Long userId;
+    private Long couponId;
+    private Long orderId;
+    private Integer status;
 }

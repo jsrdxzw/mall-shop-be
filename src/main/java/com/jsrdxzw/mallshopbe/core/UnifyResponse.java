@@ -15,4 +15,11 @@ public class UnifyResponse {
     private Integer code;
     private String message;
     private String request;
+
+    public static UnifyResponse createSuccess() {
+        UnifyResponse unifyResponse = new UnifyResponse();
+        unifyResponse.code = 0;
+        unifyResponse.message = "ok";
+        return unifyResponse;
+    }
 }
