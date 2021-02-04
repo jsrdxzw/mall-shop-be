@@ -1,10 +1,13 @@
 package com.jsrdxzw.mallshopbe.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.util.Pair;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -13,6 +16,9 @@ import java.util.stream.Collectors;
  * @date 2021-02-02
  */
 public class CommonUtil {
+    private static final Integer MAX_RANDOM = 1000000;
+    private static final Integer PAD_SIZE = MAX_RANDOM.toString().length();
+
     public static boolean isInTime(Date startTime, Date now, Date endTime) {
         return now.after(startTime) && now.before(endTime);
     }
@@ -28,5 +34,13 @@ public class CommonUtil {
             BeanUtils.copyProperties(it, target);
             return target;
         }).collect(Collectors.toList());
+    }
+
+    public static String generateOrderNum() {
+        ThreadLocalRandom rand = ThreadLocalRandom.current();
+        String dateTime = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
+        int randNumber = rand.nextInt(MAX_RANDOM);
+        String randInt = StringUtils.leftPad(Integer.toString(randNumber), PAD_SIZE, "0");
+        return dateTime + randInt;
     }
 }

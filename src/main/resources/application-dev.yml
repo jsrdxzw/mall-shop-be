@@ -20,3 +20,5 @@ mall:
     jwt-key: mall-shopping
     token-expired-time: 86400000
     default-scope: 8
+  order:
+    pay-time-limit: 3600

@@ -16,6 +16,7 @@
     <properties>
         <java.version>11</java.version>
         <auth0.version>3.12.1</auth0.version>
+        <common-lang3.version>3.11</common-lang3.version>
     </properties>
     <dependencies>
         <dependency>
@@ -36,6 +37,12 @@
             <artifactId>java-jwt</artifactId>
             <version>${auth0.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${common-lang3.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
