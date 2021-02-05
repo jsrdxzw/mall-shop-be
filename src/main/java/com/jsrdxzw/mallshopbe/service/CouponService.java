@@ -83,7 +83,7 @@ public class CouponService {
         UserCoupon userCouponNew = new UserCoupon();
         userCouponNew.setCouponId(couponId);
         userCouponNew.setUserId(uid);
-        userCouponNew.setStatus(CouponStatus.AVAILABLE.getStatus());
+        userCouponNew.setStatus(CouponStatus.AVAILABLE);
         userCouponNew.setCreateTime(now);
         userCouponRepository.save(userCouponNew);
     }

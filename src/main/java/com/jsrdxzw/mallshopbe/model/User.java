@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Where;
 
+import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import java.util.Map;
@@ -28,8 +29,9 @@ public class User extends BaseEntity {
 
     private String password;
 
-    private Long unifyUid;
+    private Integer unifyUid;
 
     @Convert(converter = MapJsonConverter.class)
+    @Column(columnDefinition = "json")
     private Map<String, Object> wxProfile;
 }

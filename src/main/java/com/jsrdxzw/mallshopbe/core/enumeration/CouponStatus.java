@@ -25,7 +25,7 @@ public enum CouponStatus {
      */
     EXPIRED(3, "未使用，已过期");
 
-    private final int status;
+    private final Integer status;
     private final String description;
 
     public static CouponStatus toType(int status) {

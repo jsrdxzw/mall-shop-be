@@ -36,7 +36,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
             return true;
         }
         String bearerToken = request.getHeader("Authorization");
-        if (StringUtils.hasLength(bearerToken)) {
+        if (!StringUtils.hasLength(bearerToken)) {
             throw new UnAuthenticatedException(10004);
         }
         if (!bearerToken.startsWith(BEARER)) {

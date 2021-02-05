@@ -1,5 +1,6 @@
 package com.jsrdxzw.mallshopbe.model;
 
+import com.jsrdxzw.mallshopbe.core.enumeration.CouponStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Where;
@@ -18,5 +19,5 @@ public class UserCoupon extends BaseEntity {
     private Long userId;
     private Long couponId;
     private Long orderId;
-    private Integer status;
+    private CouponStatus status;
 }

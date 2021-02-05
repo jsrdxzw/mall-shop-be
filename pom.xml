@@ -17,6 +17,7 @@
         <java.version>11</java.version>
         <auth0.version>3.12.1</auth0.version>
         <common-lang3.version>3.11</common-lang3.version>
+        <knife4j.version>3.0.2</knife4j.version>
     </properties>
     <dependencies>
         <dependency>
@@ -42,6 +43,12 @@
             <artifactId>commons-lang3</artifactId>
             <version>${common-lang3.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>${knife4j.version}</version>
+        </dependency>
+
 
 
         <dependency>
