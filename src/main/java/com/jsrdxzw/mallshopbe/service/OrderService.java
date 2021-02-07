@@ -5,8 +5,10 @@ import com.jsrdxzw.mallshopbe.biz.coupon.ICouponDiscount;
 import com.jsrdxzw.mallshopbe.biz.order.OrderPreChecker;
 import com.jsrdxzw.mallshopbe.bo.OrderListenerBo;
 import com.jsrdxzw.mallshopbe.bo.OrderSkuBo;
+import com.jsrdxzw.mallshopbe.core.LocalUserFactory;
 import com.jsrdxzw.mallshopbe.core.enumeration.CouponStatus;
 import com.jsrdxzw.mallshopbe.core.enumeration.OrderStatus;
+import com.jsrdxzw.mallshopbe.core.properties.MallOrderProperty;
 import com.jsrdxzw.mallshopbe.dto.OrderDTO;
 import com.jsrdxzw.mallshopbe.dto.SkuInfoDTO;
 import com.jsrdxzw.mallshopbe.exception.ForbiddenException;
@@ -22,13 +24,14 @@ import com.jsrdxzw.mallshopbe.repository.OrderRepository;
 import com.jsrdxzw.mallshopbe.repository.SkuRepository;
 import com.jsrdxzw.mallshopbe.repository.UserCouponRepository;
 import com.jsrdxzw.mallshopbe.util.CommonUtil;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.pulsar.client.api.Producer;
 import org.apache.pulsar.client.api.PulsarClientException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,14 +43,12 @@ import java.util.stream.Collectors;
  * @author xuzhiwei
  * @date 2021-02-04
  */
-@Setter
 @Slf4j
 @Service
-@ConfigurationProperties(prefix = "mall.order")
 public class OrderService {
 
-    private Integer payTimeLimit;
-    private Integer maxSkuLimit;
+    @Autowired
+    private MallOrderProperty mallOrderProperty;
 
     @Autowired
     private SkuService skuService;
@@ -85,7 +86,7 @@ public class OrderService {
             }
             couponChecker = new CouponChecker(coupon, couponDiscount);
         }
-        OrderPreChecker orderPreChecker = new OrderPreChecker(orderDTO, skuList, couponChecker, maxSkuLimit);
+        OrderPreChecker orderPreChecker = new OrderPreChecker(orderDTO, skuList, couponChecker, mallOrderProperty.getMaxSkuLimit());
         return orderPreChecker.isOk();
     }
 
@@ -94,8 +95,8 @@ public class OrderService {
         String orderNo = CommonUtil.generateOrderNum();
         Calendar calendar = Calendar.getInstance();
         Date now = new Date();
-        calendar.add(Calendar.SECOND, payTimeLimit);
-        Date expireTime = DateUtils.addSeconds(now, payTimeLimit);
+        calendar.add(Calendar.SECOND, mallOrderProperty.getPayTimeLimit());
+        Date expireTime = DateUtils.addSeconds(now, mallOrderProperty.getPayTimeLimit());
         Order order = Order.builder()
                 .orderNo(orderNo)
                 .totalPrice(orderDTO.getTotalPrice())
@@ -122,7 +123,7 @@ public class OrderService {
         // 进入延迟队列，可以使用redis或者MQ实现延迟队列
         try {
             mallOrderProducer.newMessage()
-                    .deliverAfter(payTimeLimit, TimeUnit.SECONDS)
+                    .deliverAfter(mallOrderProperty.getPayTimeLimit(), TimeUnit.SECONDS)
                     .value(OrderListenerBo.builder().oid(order.getId()).uid(uid).couponId(couponId).build())
                     .send();
         } catch (PulsarClientException e) {
@@ -147,5 +148,25 @@ public class OrderService {
                 throw new ParameterException(50003);
             }
         }
+    }
+
+    public Order getOrderDetail(Long id) {
+        return orderRepository.findById(id).orElseThrow(() -> new NotFoundException(50009));
+    }
+
+    public Page<Order> getUnpaidOrder(Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return orderRepository.findByExpiredTimeGreaterThanAndStatusAndUserIdOrderByCreateTimeDesc(
+                new Date(), OrderStatus.UNPAID, LocalUserFactory.getUser().getId(), pageable);
+    }
+
+    public Page<Order> getOrderByStatus(int status, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Long userId = LocalUserFactory.getUser().getId();
+        OrderStatus orderStatus = OrderStatus.fromStatus(status);
+        if (orderStatus == OrderStatus.All) {
+            return orderRepository.findByUserIdOrderByCreateTimeDesc(userId, pageable);
+        }
+        return orderRepository.findByUserIdAndStatus(userId, orderStatus, pageable);
     }
 }
