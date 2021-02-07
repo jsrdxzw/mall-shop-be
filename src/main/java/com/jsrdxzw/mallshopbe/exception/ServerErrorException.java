@@ -9,4 +9,9 @@ public class ServerErrorException extends HttpException {
         this.httpStatusCode = 500;
         this.code = code;
     }
+
+    public ServerErrorException() {
+        this.httpStatusCode = 500;
+        this.code = 9999;
+    }
 }

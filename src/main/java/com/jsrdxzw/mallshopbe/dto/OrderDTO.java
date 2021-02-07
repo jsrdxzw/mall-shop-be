@@ -2,6 +2,7 @@ package com.jsrdxzw.mallshopbe.dto;
 
 import lombok.Data;
 
+import javax.validation.Valid;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
@@ -23,6 +24,7 @@ public class OrderDTO {
 
     private Long couponId;
 
+    @Valid
     private List<SkuInfoDTO> skuInfoList;
 
     private OrderAddressDTO address;

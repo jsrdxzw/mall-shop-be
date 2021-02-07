@@ -22,3 +22,11 @@ mall:
     default-scope: 8
   order:
     pay-time-limit: 3600
+    max-sku-limit: 500
+pulsar:
+  service-url: pulsar://localhost:6650
+  listener-thread-num: 5
+  mall-order-topic: mall-order-topic
+  mall-order-producer-name: ${spring.application.name}-order-producer
+  mall-order-consumer-name: ${spring.application.name}-order-consumer
+  mall-order-subscription-name: ${spring.application.name}-order-subscription

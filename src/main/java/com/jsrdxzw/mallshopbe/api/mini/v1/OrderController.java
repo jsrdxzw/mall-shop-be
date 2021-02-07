@@ -1,6 +1,6 @@
 package com.jsrdxzw.mallshopbe.api.mini.v1;
 
-import com.jsrdxzw.mallshopbe.biz.OrderChecker;
+import com.jsrdxzw.mallshopbe.biz.order.OrderPreChecker;
 import com.jsrdxzw.mallshopbe.core.LocalUserFactory;
 import com.jsrdxzw.mallshopbe.core.interceptors.ScopeLevel;
 import com.jsrdxzw.mallshopbe.dto.OrderDTO;
@@ -28,7 +28,8 @@ public class OrderController {
     @ScopeLevel
     public OrderCreateVO createOrder(@Validated @RequestBody OrderDTO orderDTO) {
         Long uid = LocalUserFactory.getUser().getId();
-        OrderChecker orderChecker = orderService.preCheck(uid, orderDTO);
-        return new OrderCreateVO();
+        OrderPreChecker orderPreChecker = orderService.preCheck(uid, orderDTO);
+        Long oid = orderService.createOrder(uid, orderDTO, orderPreChecker);
+        return OrderCreateVO.builder().id(oid).build();
     }
 }

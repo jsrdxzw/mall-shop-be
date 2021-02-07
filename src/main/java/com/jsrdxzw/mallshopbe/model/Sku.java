@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author xuzhiwei
@@ -49,5 +50,9 @@ public class Sku extends BaseEntity {
 
     public void setSpecs(List<Spec> specs) {
         this.specs = JsonUtil.objectToJson(specs);
+    }
+
+    public List<String> getSpecValueList() {
+        return this.getSpecs().stream().map(Spec::getValue).collect(Collectors.toList());
     }
 }

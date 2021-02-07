@@ -1,12 +1,17 @@
 package com.jsrdxzw.mallshopbe.model;
 
+import com.jsrdxzw.mallshopbe.bo.OrderSkuBo;
+import com.jsrdxzw.mallshopbe.core.converter.ObjectJsonConverter;
 import com.jsrdxzw.mallshopbe.core.enumeration.OrderStatus;
+import com.jsrdxzw.mallshopbe.dto.OrderAddressDTO;
 import lombok.*;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author xuzhiwei
@@ -29,12 +34,15 @@ public class Order extends BaseEntity {
     private Date placedTime;
 
     @Column(columnDefinition = "json")
-    private String snapItems;
+    @Convert(converter = ObjectJsonConverter.class)
+    private List<OrderSkuBo> snapItems;
 
+    @Convert(converter = ObjectJsonConverter.class)
     @Column(columnDefinition = "json")
-    private String snapAddress;
+    private OrderAddressDTO snapAddress;
 
     private String prepayId;
     private BigDecimal finalTotalPrice;
+
     private OrderStatus status;
 }
