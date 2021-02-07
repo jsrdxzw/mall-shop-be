@@ -30,3 +30,7 @@ pulsar:
   mall-order-producer-name: ${spring.application.name}-order-producer
   mall-order-consumer-name: ${spring.application.name}-order-consumer
   mall-order-subscription-name: ${spring.application.name}-order-subscription
+wx:
+  code2-session-url: 123
+  appid: 123
+  appsecret: 123

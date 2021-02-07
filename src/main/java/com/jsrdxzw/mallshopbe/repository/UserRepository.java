@@ -8,4 +8,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @date 2021-02-04
  */
 public interface UserRepository extends JpaRepository<User, Long> {
+    /**
+     * findByOpenid
+     *
+     * @param openid
+     * @return
+     */
+    User findByOpenid(String openid);
 }
